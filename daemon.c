@@ -8,7 +8,7 @@
 /*Daemon-specific libraries and modules*/
 #include "util/log/d_log.h"
 /*Definition of global variables for the working directory and log and config files.*/
-#define WORKING_DIR "/home/"
+#define WORKING_DIR "/home/henry/minotaur.d"
 #define LOG_FILE "minotaur.log"
 
 int main(void){
