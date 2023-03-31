@@ -11,7 +11,7 @@
 /*Definition of global variables for the working directory and log and config files.*/
 #define WORKING_DIR "/home/henry/minotaur.d"
 #define LOG_FILE "minotaur.log"
-
+#define CONF_FILE "minotaur.conf"
 int main(void){
     pid_t pid, sid;
     /*Fork off the parent process.*/
@@ -47,21 +47,25 @@ int main(void){
 
     /*Daemon code goes here...*/
     char *string_time = malloc(sizeof(char)*6);
-    struct tm *start_time = get_start_time("minotaur.conf");
-    strftime(string_time,7,"%H:%M",start_time);
     char* string_time2 = malloc(sizeof(char)*6);
-    struct tm *end_time = get_end_time("minotaur.conf");
+    struct tm *start_time = get_start_time(CONF_FILE);
+    struct tm *end_time = get_end_time(CONF_FILE);
+    strftime(string_time,7,"%H:%M",start_time);
     strftime(string_time2,7,"%H:%M",end_time);
     log_info(LOG_FILE,("%s",string_time));
     log_info(LOG_FILE,("%s",string_time2));
-    if (start_time < end_time){
-        log_info(LOG_FILE,"It worksssss");
+
+    if (start_time > end_time){
+        log_info(LOG_FILE,"Start time is greater.");
     }
+
     else {
-        log_info(LOG_FILE, "needs work dipshit");
+        log_info(LOG_FILE,"End time is greater.");
     }
     free(string_time);
     free(string_time2);
+
+
     //TODO compare the times and determine which is earlier.
     /*Exit child process...*/
     exit(EXIT_SUCCESS);

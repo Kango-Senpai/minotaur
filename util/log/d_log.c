@@ -16,12 +16,22 @@ void log_info(char *filename, char *message){
     if (!logfile) {
         return;
     }
-    fprintf(logfile, "[INFO] %s \"%s\"\n", get_current_datetime() , message);
+    fprintf(logfile, "[INFO] %s \"%s\"\n", get_datetime() , message);
     fclose(logfile);
 }
 
+void log_debug(char *message){
+    FILE *logfile;
 
-char *get_current_datetime() {
+    logfile = fopen(DEBUG_FILE, "a+");
+    if (!logfile) {
+        return;
+    }
+    fprintf(logfile, "[INFO] %s \"%s\"\n", get_datetime() , message);
+    fclose(logfile);
+}
+
+struct tm *get_datetime_struct() {
     time_t unix_time = time(NULL);
     if (unix_time == -1){
         log_panic("daemon.log","Aquisition of raw unix time failed!");
@@ -32,8 +42,11 @@ char *get_current_datetime() {
         log_panic("daemon.log","Failed to convert unix time into local time!");
         return NULL;
     }
-    char *time_string = malloc(sizeof(char)*20);
-    strftime(time_string,20,("%a %b %d %H:%M:%S"),local_time);
-    return time_string;
+    return local_time;
 }
 
+char *get_datetime() {
+    char *time_string = malloc(sizeof(char)*20);
+    strftime(time_string,20,("%a %b %d %H:%M:%S"),get_datetime_struct());
+    return time_string;
+}
