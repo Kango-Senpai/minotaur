@@ -48,6 +48,7 @@ int main(void){
     /*Daemon code goes here...*/
     char *string_time = malloc(sizeof(char)*6);
     char* string_time2 = malloc(sizeof(char)*6);
+    
     struct tm *start_time = get_start_time(CONF_FILE);
     struct tm *end_time = get_end_time(CONF_FILE);
     strftime(string_time,7,"%H:%M",start_time);
@@ -55,18 +56,15 @@ int main(void){
     log_info(LOG_FILE,("%s",string_time));
     log_info(LOG_FILE,("%s",string_time2));
 
-    if (start_time > end_time){
-        log_info(LOG_FILE,"Start time is greater.");
-    }
+    log_info(LOG_FILE,("%s",get_datetime()));
 
-    else {
-        log_info(LOG_FILE,"End time is greater.");
+    if (get_datetime_struct() > start_time && get_datetime_struct() < end_time){
+        log_info(LOG_FILE,"Time is within range");
     }
     free(string_time);
     free(string_time2);
 
-
-    //TODO compare the times and determine which is earlier.
     /*Exit child process...*/
+    //TODO Function to compare only hour and minute values from conf file???
     exit(EXIT_SUCCESS);
 }
