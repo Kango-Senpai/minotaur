@@ -34,3 +34,26 @@ struct tm *get_end_time(char *filename) {
     fclose(conf_file);
     return end_time;
 }
+
+bool time_check(){
+    struct tm *start_time = get_start_time("minotaur.conf");
+    struct tm *end_time = get_end_time("minotaur.conf");
+    struct tm *current_time = get_datetime_struct();
+
+    if (current_time->tm_hour >= start_time->tm_hour && current_time->tm_hour <= end_time->tm_hour){
+        if (current_time->tm_hour == start_time->tm_hour){
+            if(current_time->tm_min >= start_time-> tm_min){
+                return 1;
+            }
+        }
+        else if (current_time->tm_hour == end_time->tm_hour){
+            if(current_time->tm_min < end_time->tm_min){
+                return 1;
+            }
+        }
+        else{
+            return 1;
+        }
+    }
+    return 0;
+}

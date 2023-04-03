@@ -4,9 +4,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 #include "../log/d_log.h"
-#define DUMMY_CONF "minotaur.conf.dummy"
+
 //char *fgets(char *line, int maxline, FILE *fp)
+//TODO use strptime to clean up functions...
 struct tm *get_start_time(char *filename);
 struct tm *get_end_time(char *filename);
+_Bool time_check();
 #endif

@@ -12,6 +12,24 @@
 #define WORKING_DIR "/home/henry/minotaur.d"
 #define LOG_FILE "minotaur.log"
 #define CONF_FILE "minotaur.conf"
+
+
+void debug_time(){
+    char *string_time = malloc(sizeof(char)*6);
+    char* string_time2 = malloc(sizeof(char)*6);
+    
+    struct tm *start_time = get_start_time(CONF_FILE);
+    struct tm *end_time = get_end_time(CONF_FILE);
+    strftime(string_time,7,"%H:%M",start_time);
+    strftime(string_time2,7,"%H:%M",end_time);
+    log_info(LOG_FILE,("%s",string_time));
+    log_info(LOG_FILE,("%s",string_time2));
+
+    log_info(LOG_FILE,("%s",get_datetime()));
+    free(string_time);
+    free(string_time2);
+}
+
 int main(void){
     pid_t pid, sid;
     /*Fork off the parent process.*/
@@ -46,23 +64,9 @@ int main(void){
     close(STDERR_FILENO);
 
     /*Daemon code goes here...*/
-    char *string_time = malloc(sizeof(char)*6);
-    char* string_time2 = malloc(sizeof(char)*6);
-    
-    struct tm *start_time = get_start_time(CONF_FILE);
-    struct tm *end_time = get_end_time(CONF_FILE);
-    strftime(string_time,7,"%H:%M",start_time);
-    strftime(string_time2,7,"%H:%M",end_time);
-    log_info(LOG_FILE,("%s",string_time));
-    log_info(LOG_FILE,("%s",string_time2));
-
-    log_info(LOG_FILE,("%s",get_datetime()));
-
-    if (get_datetime_struct() > start_time && get_datetime_struct() < end_time){
-        log_info(LOG_FILE,"Time is within range");
+    if(time_check()){
+        log_info(LOG_FILE,"Time trigger");
     }
-    free(string_time);
-    free(string_time2);
 
     /*Exit child process...*/
     //TODO Function to compare only hour and minute values from conf file???
