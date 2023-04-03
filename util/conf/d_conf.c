@@ -1,9 +1,9 @@
 #include "d_conf.h"
-struct tm *get_start_time(char *filename){
+struct tm *get_start_time(){
     struct tm *start_time = malloc(sizeof(struct tm));
-    FILE *conf_file = fopen(filename,"r");
+    FILE *conf_file = fopen(CONF_FILE,"r");
     if (conf_file == NULL){
-        log_panic("minotaur.log","Failed to open config file.");
+        log_panic("Failed to open config file.");
         return start_time;
     }
     char *first_line = malloc(sizeof(char)*13);
@@ -17,11 +17,11 @@ struct tm *get_start_time(char *filename){
     return start_time;
 }
 
-struct tm *get_end_time(char *filename) {
+struct tm *get_end_time() {
     struct tm *end_time = malloc(sizeof(struct tm));
-    FILE *conf_file = fopen(filename,"r");
+    FILE *conf_file = fopen(CONF_FILE,"r");
     if (conf_file == NULL){
-        log_panic("minotaur.log","Failed to open config file.");
+        log_panic("Failed to open config file.");
         return end_time;
     }
     char *first_line = malloc(sizeof(char)*13);
@@ -36,8 +36,8 @@ struct tm *get_end_time(char *filename) {
 }
 
 bool time_check(){
-    struct tm *start_time = get_start_time("minotaur.conf");
-    struct tm *end_time = get_end_time("minotaur.conf");
+    struct tm *start_time = get_start_time();
+    struct tm *end_time = get_end_time();
     struct tm *current_time = get_datetime_struct();
 
     if (current_time->tm_hour >= start_time->tm_hour && current_time->tm_hour <= end_time->tm_hour){

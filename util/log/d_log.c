@@ -1,18 +1,17 @@
 #include "d_log.h"
 
-void log_panic(char *filename, char *message){
-    FILE *logfile = fopen(filename, "a+");
+void log_panic(char *message){
+    FILE *logfile = fopen(LOG_FILE, "a+");
     if (!logfile) {
         return;
     }
-    fprintf(logfile,"[PANIC] \"%s\"", message);
+    fprintf(logfile,"[PANIC] \"%s\"\n", message);
     fclose(logfile);
 }
 
-void log_info(char *filename, char *message){
+void log_info(char *message){
     FILE *logfile;
-
-    logfile = fopen(filename, "a+");
+    logfile = fopen(LOG_FILE, "a+");
     if (!logfile) {
         return;
     }
@@ -23,23 +22,23 @@ void log_info(char *filename, char *message){
 void log_debug(char *message){
     FILE *logfile;
 
-    logfile = fopen(DEBUG_FILE, "a+");
+    logfile = fopen(LOG_FILE, "a+");
     if (!logfile) {
         return;
     }
-    fprintf(logfile, "[INFO] %s \"%s\"\n", get_datetime() , message);
+    fprintf(logfile, "[DEBUG] %s \"%s\"\n", get_datetime() , message);
     fclose(logfile);
 }
 
 struct tm *get_datetime_struct() {
     time_t unix_time = time(NULL);
     if (unix_time == -1){
-        log_panic("daemon.log","Aquisition of raw unix time failed!");
+        log_panic("Aquisition of raw unix time failed!");
         return NULL;
     }
     struct tm *local_time = localtime(&unix_time);
     if (local_time == NULL){
-        log_panic("daemon.log","Failed to convert unix time into local time!");
+        log_panic("Failed to convert unix time into local time!");
         return NULL;
     }
     return local_time;
