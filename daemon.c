@@ -30,7 +30,7 @@ void debug_time(){
     free(string_time2);
 }
 
-int main(void){
+void daemonize(){
     pid_t pid, sid;
     /*Fork off the parent process.*/
     pid = fork();
@@ -63,6 +63,11 @@ int main(void){
     close(STDOUT_FILENO);
     close(STDERR_FILENO);
 
+}
+
+int main(void){
+    daemonize();
+    log_info(LOG_FILE,"Hello World!");
     /*Daemon code goes here...*/
     if(time_check()){
         log_info(LOG_FILE,"Time trigger");
