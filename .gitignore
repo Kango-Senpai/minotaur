@@ -57,3 +57,5 @@ build.sh
 pat
 #vscode
 .vscode
+#todo file
+TODO.txt
