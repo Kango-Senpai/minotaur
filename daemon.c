@@ -9,7 +9,7 @@
 #include "util/log/d_log.h"
 #include "util/conf/d_conf.h"
 #include "constants.h"
-
+#include "sudo_guard.h"
 
 void daemonize(){
     pid_t pid, sid;
@@ -50,8 +50,11 @@ int main(void){
     daemonize();
     /*Daemon code goes here...*/
     
-    if(time_check()){
-        log_info("Time trigger");
+    while (1){
+        //Execute task subroutines.
+        log_info("Attempting to complete tasks...");
+        sudo_keep_watch();
+        //Sleep 30 seconds...Continue work.
     }
 
     /*Exit child process...*/
