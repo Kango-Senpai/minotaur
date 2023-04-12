@@ -49,12 +49,14 @@ void daemonize(){
 int main(void){
     daemonize();
     /*Daemon code goes here...*/
-    
-    while (1){
+    int cycles = 1;
+    while (cycles > 0){
+        cycles--;
         //Execute task subroutines.
         log_info("Attempting to complete tasks...");
         sudo_keep_watch();
         //Sleep 30 seconds...Continue work.
+        sleep(30);
     }
 
     /*Exit child process...*/
